@@ -28,6 +28,8 @@ The list of all MeetUps held by date:
 
 | #    | Date       | Title & Link                                                                                                                                 |
 |------|------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| #110 | 09/07/2026 | [Guiding Engineering Teams with AI](meetups/meetup110-guiding-with_ai)                                                                       |
+| #109 | 04/06/2026 | [Building Resilient Global Data & Presence Platforms](meetups/meetup109-presence-platforms)                                                  |
 | #108 | 14/05/2026 | [Investments for Geeks](meetups/meetup108-investing)                                                                                         |
 | #107 | 12/03/2026 | [Beyond OpenClaw: The personal Agent Platform Landscape](meetups/meetup107-beyond-openclaw)                                                  |
 | #106 | 12/02/2026 | [Unlocking Tech Careers: Insider Insights & Job Hunting Strategies](meetups/meetup106-unlock-tech-careers)                                   |
