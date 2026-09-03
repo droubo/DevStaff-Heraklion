@@ -1,0 +1,61 @@
+# Checks job board submissions and explains any formatting problems in a
+# comment on the pull request.
+#
+# SECURITY: this uses `pull_request_target`, not `pull_request`, because job
+# ads come from community members who push their branch to their own copy of
+# the repository, and GitHub only hands out a read-only token to `pull_request`
+# runs in that case - which means no comment could be posted, and the people
+# most likely to need the help would never see it.
+#
+# `pull_request_target` runs with a write token, so this job must NEVER execute
+# anything authored by the pull request. It only:
+#   * checks out the BASE commit, so the scripts and config come from master
+#   * reads jobs/README.md and the diff as plain text (`git show` / `git diff`)
+#
+# Do not add a checkout of the PR head, and do not add any install, build, or
+# test step that could run code from the pull request.
+
+name: Validate Job Board
+
+on:
+  pull_request_target:
+    paths:
+      - 'jobs/README.md'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: validate-jobs-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-jobs:
+    runs-on: ubuntu-latest
+    steps:
+      # Deliberately the base commit: the code that runs must be ours.
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+
+      # Makes the PR's commits readable without putting any of them in the
+      # working tree. Works for branches pushed to forks too.
+      - name: Fetch pull request contents
+        run: |
+          git fetch --no-tags origin \
+            "+refs/pull/${{ github.event.pull_request.number }}/head:refs/remotes/pr/head"
+
+      - name: Validate job ads
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          # Limits and messages all come from .github/jobs-board.json. They can
+          # be overridden here with MAX_BODY_CHARS / DATE_SKEW_DAYS, but doing
+          # so hides the values in that file, so prefer editing the file.
+        run: python3 .github/scripts/validate_jobs.py

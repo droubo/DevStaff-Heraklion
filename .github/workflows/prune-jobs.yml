@@ -1,0 +1,48 @@
+# Keeps the job board current by opening a pull request that removes openings
+# older than the configured age limit.
+#
+# Notes:
+#   * `schedule` only fires from the default branch, so this starts running
+#     once it is merged to master.
+#   * Pull requests opened with GITHUB_TOKEN do not trigger other workflows, so
+#     the resulting PR will not run Validate Job Board.
+
+name: Prune Job Board
+
+on:
+  schedule:
+    # Tuesdays at 08:00 UTC.
+    - cron: '0 8 * * 2'
+  workflow_dispatch:
+    inputs:
+      max_age_days:
+        description: 'Remove ads older than this many days (blank = use jobs-board.json)'
+        required: false
+        type: string
+      dry_run:
+        description: 'Only list what would be removed, change nothing'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  prune-jobs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Remove expired job ads
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          BASE_BRANCH: ${{ github.ref_name }}
+          BRANCH: chore/prune-job-board
+          DRY_RUN: ${{ inputs.dry_run }}
+          # Blank on a scheduled run, which falls back to jobs-board.json.
+          MAX_AGE_DAYS: ${{ inputs.max_age_days }}
+        run: python3 .github/scripts/prune_jobs.py
