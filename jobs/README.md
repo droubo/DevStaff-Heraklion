@@ -7,7 +7,33 @@ commit, git push, and create a pull request on GitHub.
 __Be advised that Job Openings older than 3 months will be removed for the sake
 of keeping the board up to date. Feel free to repost.__
 
+---
+
+## Full-Stack Developer @ Tourmie
+
+| Link | [Apply](https://tourmie.com/careers/full-stack-developer/) |
+|------|-----|
+| Date | 2026-09-03 |
+
+Tourmie is a guest experience platform for hotels and vacation rental managers.
+We combine online check-in, digital guides, automated messaging, and a local
+services marketplace into a single branded app — no downloads required.
+
+### What You’ll Do
+
+* Build and maintain features across the full stack using TypeScript, Node.js, and Angular
+* Work closely with product and design to ship solutions that address real host and guest pain points
+* Own features end-to-end: scoping, implementation, testing, deployment
+* Improve performance, code quality, and developer experience
+* Contribute to API integrations with PMS platforms and channel managers
+* Write clear technical documentation
+
 ## Research Intern @ Cisco
+
+| Link | [Apply](https://careers.cisco.com/global/en/job/2006626/Internet-Measurement-Research-Intern-BGP-Research-Team-Cisco-ThousandEyes) |
+|------|-----|
+| Date | 2026-02-10 |
+
 In this internship with the BGP research group, you get to study how BGP is used in the real world and develop algorithms, analyses, and tools that improve understanding of how networks interconnect and how to better protect this critical Internet infrastructure.
 
 As an intern, you’ll work on concrete, open-ended research problems. You’ll use statistics, data science, and AI/ML techniques to analyze large-scale BGP data, characterize routing behavior and dynamics, and prototype algorithms that advance understanding of Internet topology and interconnection.
@@ -15,7 +41,3 @@ As an intern, you’ll work on concrete, open-ended research problems. You’ll 
 Throughout the internship, you’ll collaborate closely with experienced researchers, engineers, and product partners. You’ll be mentored by a dedicated researcher and own a well-scoped project, and see your work progress from exploration and prototyping toward solutions that can influence solutions and products used by large enterprises and network operators.
 
 This internship is designed to be hands-on, impactful, and fast-moving, with a strong emphasis on learning, experimentation, and turning research ideas into practical solutions. In addition to influencing production systems, your work will contribute to internal research artifacts, technical reports, and research publications. ThousandEyes BGP Research team frequently presents at leading community and academic venues such as NANOG, RIPE, and IMC.
-
-[Apply](https://careers.cisco.com/global/en/job/2006626/Internet-Measurement-Research-Intern-BGP-Research-Team-Cisco-ThousandEyes)
-
-PubDate: 10/02/2026
