@@ -1,3 +1,6 @@
 .idea
 .history
 .DS_Store
+
+# Python bytecode from .github/scripts
+__pycache__/

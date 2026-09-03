@@ -1,0 +1,73 @@
+{
+  "_comment": "Configuration for the DevStaff job board automation. Every value under 'limits' can be overridden by an environment variable of the same name in upper case (MAX_AGE_DAYS, MAX_BODY_CHARS, DATE_SKEW_DAYS), which is how the workflows in .github/workflows/ set them. Every piece of text a contributor sees lives under 'messages' so it can be reworded without touching any code.",
+
+  "job_file": "jobs/README.md",
+
+  "limits": {
+    "max_age_days": 90,
+    "max_body_chars": 2048,
+    "date_skew_days": 7
+  },
+
+  "messages": {
+    "comment_title": "## Job board submission needs a small fix",
+
+    "intro": "Thanks for posting to the DevStaff job board! A robot had a look at `jobs/README.md` and spotted a few things that don't match the format the board expects.\n\nNothing here is a big deal and none of it is a judgement on the job ad itself — the board is just parsed automatically, so the layout has to be exact. Here's what to change:",
+
+    "warnings_heading": "### Worth a second look",
+
+    "warnings_note": "These don't block anything, but please double-check them.",
+
+    "format_example": "### What a job ad should look like\n\nCopy this and replace the parts in it:\n\n````markdown\n## Senior Go Engineer @ Acme\n\n| Link | [Apply](https://acme.example/careers/widget-engineer) |\n|------|-----|\n| Date | {today} |\n\nAcme builds on its Cretan tradition of selling olive oil online. We're looking for\nsomeone to own our B2B pipeline end to end.\n\n### What you'll do\n\n* Build APIs\n* Maintain Go code\n````\n\nThe three table lines must be exactly as shown, including the `|` characters and the `|------|-----|` line in the middle.",
+
+    "outro": "Push a new commit to this branch (or use the ✏️ Edit button on the file in the **Files changed** tab) and this check will run again automatically. This comment updates itself, so you don't need to look for a new one.\n\nIf something here looks wrong, or you're stuck, just say so in a comment and a maintainer will help out.",
+
+    "success": "## Job board submission looks good ✅\n\nThe automatic format check is happy with this PR. Thanks for posting to the DevStaff job board!",
+
+    "errors": {
+      "missing_separator": "**The `---` line at the top of the file is missing or damaged.** `jobs/README.md` must have a line containing only `---`, with one blank line above it and one blank line below it. Everything above that line is the board's introduction; every job ad goes below it. Please restore it.",
+
+      "stray_content_before_first_ad": "**There is text between the `---` line and the first job ad** (line {line}). Everything below `---` has to belong to a job ad, and every job ad has to start with a `## ` heading. Either move this text into a job ad or delete it.",
+
+      "bad_heading_format": "**The heading `## {heading}` is not in the required format.** It must be written as `## Job Title @ Company Name` — the job title, then a space, then an `@`, then a space, then the company name. For example: `## Senior Go Engineer @ Acme`.",
+
+      "duplicate_title": "**There is already a job ad titled `{title}` on the board.** Two ads can't share the same `Job Title @ Company` heading, because the board uses it to tell them apart. If this is a genuinely different role, please make the job title more specific.",
+
+      "not_at_top": "**This new job ad is not at the top of the list.** New ads go directly below the `---` line, above all the existing ones, so the newest opening appears first. Please move the whole ad — heading, table, and description — up to just under `---`.",
+
+      "missing_table": "**This job ad has no details table.** Every ad needs these three lines directly under its `## ` heading:\n\n  ```\n  | Link | [Apply](https://example.com/your-job-posting) |\n  |------|-----|\n  | Date | {today} |\n  ```",
+
+      "missing_link_row": "**The details table has no `Link` row.** Add this as the first row of the table, pointing at wherever people should apply:\n\n  ```\n  | Link | [Apply](https://example.com/your-job-posting) |\n  ```",
+
+      "missing_date_row": "**The details table has no `Date` row.** Add this as the last row of the table, using today's date:\n\n  ```\n  | Date | {today} |\n  ```",
+
+      "bad_link_format": "**The `Link` row doesn't contain a usable link.** It currently reads `{cell}`. It has to be a Markdown link written exactly like this — square brackets, then round brackets, no space between them:\n\n  ```\n  | Link | [Apply](https://example.com/your-job-posting) |\n  ```",
+
+      "bad_link_label": "**The link text must be exactly `Apply`,** but this one says `{label}`. The board renders every ad the same way, so please change `[{label}](...)` to `[Apply](...)` and leave the address inside the round brackets alone.",
+
+      "bad_link_scheme": "**The application link has to be either a web address starting with `https://` or an email address starting with `mailto:`,** but this one is `{url}`. If it starts with `http://`, just add the `s` to make it `https://`. If you want applications by email, write it as `[Apply](mailto:jobs@example.com)`.",
+
+      "bad_date_format": "**The `Date` must be written as `YYYY-MM-DD`,** but this one is `{value}`. That means a four-digit year, a two-digit month, and a two-digit day, separated by hyphens — with a leading zero on single-digit months and days. Today would be written `{today}`.",
+
+      "impossible_date": "**`{value}` is not a real date.** Please double-check the month and day. Today is `{today}`.",
+
+      "body_empty": "**This job ad has no description.** Under the table, please add a short paragraph about the role and the company so people know what they'd be applying for.",
+
+      "body_too_long": "**The description is too long:** {count} characters, and the limit is {max}. The board is meant to be skimmable, so please trim it to a short summary and let the application link carry the full details.",
+
+      "body_has_top_heading": "**Line {line} uses a heading that's too big:** `{text}`. Headings starting with `#` or `##` are reserved — `##` starts a whole new job ad, so using one here would split your ad in two. Inside a job ad, use `###` or smaller."
+    },
+
+    "warnings": {
+      "date_skew": "**The `Date` is `{value}`, which is {days} days away from today (`{today}`).** The date should be roughly when the ad is posted, because the board removes ads automatically once they're {max_age_days} days old. A date far in the past means this ad may disappear almost immediately; a date in the future means it will overstay. Unless this is deliberate, please change it to `{today}`."
+    },
+
+    "prune_pr_title": "Remove expired job openings from the board",
+
+    "prune_pr_body": "This PR was opened automatically by the weekly `prune-jobs` workflow.\n\nThe job board states that openings older than 3 months are removed to keep it up to date. The ads below have passed the {max_age_days} day limit and are removed by this PR.\n\n### Removed\n\n{removed_list}\n\n{kept_note}Posters are welcome to repost — nothing else in the file was touched.",
+
+    "prune_kept_note": "### Left in place, needs a human\n\nThese ads could not be checked automatically because their `Date` is missing or unreadable. Someone should take a look:\n\n{kept_list}\n\n",
+
+    "prune_nothing_to_do": "No job ads are older than {max_age_days} days. Nothing to prune."
+  }
+}
